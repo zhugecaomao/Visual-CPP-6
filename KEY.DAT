@@ -1,0 +1,5 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual C++\SetupWizard]
+"aspo"=dword:38395356
+

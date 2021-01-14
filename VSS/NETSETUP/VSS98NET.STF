@@ -1,0 +1,273 @@
+													
+App Name	Microsoft Visual SourceSafe NetSetup
+App Version	6.0.0.1.0122 (1033)
+Frame Caption	Visual SourceSafe NetSetup
+Dialog Caption Base	Visual SourceSafe
+About Box String	Visual SourceSafe Setup\n\nCopyright (C) 1998-2000 Microsoft Corporation.													
+Check Modules	MS:SCC:REFRESH,Microsoft Visual SourceSafe											
+MSAPPS Mode	local
+Inf File Name	VSS98NET.INF
+Maximum Object ID	280
+Floppy Mode Root Object ID	6 : 1 2
+Maintenance Mode Root Object ID	7 : 1 2
+Batch Mode Root Object ID	6 : 1 2
+Setup Version	3.0.0.1210
+ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Chang	Dest Dir	Check Dir	Installed By Us
+													
+1				CustomAction	"""COMMON98.DLL"", ""SetDefaultDir"", ""VSS;HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual SourceSafe,ProductDir"" "					%d				
+2		Microsoft Visual SourceSafe		AppSearch	"%p\VStudio\VSS<%1>,srcsafe.ini,,128,yes,no,3, 4, 5"									
+3				SearchReg	"HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual SourceSafe,ProductDir"									
+4				SearchEnv	"""SSDIR"""									
+5				SearchDrives	"""fixed"""									
+													
+ 														
+													
+ 														
+													
+	=== Visual Source Safe Net Install Modes (mainstf.etf) ===													
+													
+6	yes	Floppy Install		AppMainDlg	121 : 41 21 8					%2				
+7	yes	Microsoft Visual SourceSafe 6.0d	Customizes your installation.  For Client software only, ask your Admin where to run NetSetup from instead.  (NOTE: The 'Create Database' option does NOT create a database when upgrading an old installation.)	CustomDlg	140  143 : 134 135 41 21 8 	VSS98NET.DLL,604			yes					
+													
+8				Group	9 10 11 12									
+9				CustomAction	"""COMMON98.DLL"", ""GetPathFromReg"", ""HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup, VSCommonDir"" "					%p\VStudio\Common<%p\Microsoft Visual Studio\Common>				
+10				CustomAction	"""COMMON98.DLL"", ""GetPathFromReg"", ""HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual SourceSafe,ProductDir"" "					%d				
+													
+11				CustomAction	"""COMMON98.DLL"", ""GetPathFromReg"", ""HKEY_LOCAL_MACHINE,SOFTWARE\Microsoft\Windows\CurrentVersion,CommonFilesDir"" "					%p\Common<%p\Common Files>				
+													
+12				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""13"""					%d				
+13				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup,VSCommonDir,%s"					%9				
+													
+ 														
+													
+ 
+														
+  														
+														
+  														
+													
+ 														
+													
+ 														
+													
+	=== Main CAH/Detection (MainCah.etf) ===													
+													
+21				Group	22 23 25									
+22				Group	34 28 29 30 31 27  26									
+23				CustomAction	"COMMON98.DLL,DetectWzRegKey,ServerSide"									
+													
+24				Group	34 28 29 30 31 27  26									
+													
+	=== EULA (MainCah.etf) ===													
+25				CustomAction	"COMMON98.DLL,LicenseDlg,Setup;eula_txt"									
+													
+26				CustomAction	"PHOLDER.DLL,SPPlaceHolderCAH"									
+													
+	=== IE4 Check (MainCah.etf) ===													
+27				CustomAction	"COMMON98.DLL,CheckRegKey,""LOCAL,Software\Microsoft\Internet Explorer,Version"""									
+	=== Set DestDir to Program Items (MainCah.etf) ===													
+28				CustomAction	"COMMON98.DLL,GetWindowsPathFromReg,""Programs, True"""									
+													
+	=== Check Operating System (MainCah.etf) ===													
+29		IsWin95		CustomAction	"COMMON98.DLL,DetectOS,Win95 "									
+30		IsWinnt3x		CustomAction	"COMMON98.DLL, DetectOS, winnt3x"									
+31		IsWinNT40		CustomAction	"COMMON98.DLL, DetectOS, winnt40"									
+32		Is40Shell		CustomAction	"COMMON98.DLL, DetectOS, 40shell"									
+33		IsWinNT50		CustomAction	"COMMON98.DLL, DetectOS, winnt50"									
+													
+	=== Check Admin Privileges (MainCah.etf) ===													
+34		Check Adminstrator		CustomAction	"COMMON98.DLL,DetectAdminPrivileges"									
+													
+	=== Sys Always (system.etf) ===													
+													
+41				Group	241 111 61 91 51					%d				
+		
+	=== Tahoma Font Component (fptahoma.etf) ===													
+													
+51				Group	53 									
+													
+52				DetectOlderFile	"""tahoma.ttf"""					%w\fonts		
+53				Depend	"52 ? 54 : 57"
+54				Depend	"31 ? 55 56 : 57"
+55				CopyFile	"Font Files,tahoma_ttf"					%W		
+56				CustomAction	"COMMON98.DLL,ReplaceFont,tahoma.ttf"					%w\fonts				
+57				InstallTTFFile	"Font Files, tahoma_ttf, Tahoma (True Type)"					%M				
+													
+	=== vc MFC Os Ansi Retail component (OSRETAIL.ETF) ===													
+ 														
+61				Group	62 63 64 66 67 69 70 72 73 75 76 78 79 81 82 84 85					%D\win32				
+ 														
+62				CopyFile	"vc MFC Os Retail, mfc70_dll"									
+ 														
+													
+63				CustomAction	"COMMON98.DLL,LangCheckCAH,CHS"									
+64				Depend	"63 ? 65"									
+65				CopyFile	"vc MFC Os Retail, mfc70chs_dll"									
+													
+66				CustomAction	"COMMON98.DLL,LangCheckCAH,CHT"									
+67				Depend	"66 ? 68"									
+68				CopyFile	"vc MFC Os Retail, mfc70cht_dll"									
+													
+69				CustomAction	"COMMON98.DLL,LangCheckCAH,KOR"									
+70				Depend	"69 ? 71"									
+71				CopyFile	"vc MFC Os Retail, mfc70kor_dll"									
+													
+72				CustomAction	"COMMON98.DLL,LangCheckCAH,JPN"									
+73				Depend	"72 ? 74"									
+74				CopyFile	"vc MFC Os Retail, mfc70jpn_dll"									
+													
+75				CustomAction	"COMMON98.DLL,LangCheckCAH,DEU"									
+76				Depend	"75 ? 77"									
+77				CopyFile	"vc MFC Os Retail, mfc70deu_dll"									
+													
+78				CustomAction	"COMMON98.DLL,LangCheckCAH,FRA"									
+79				Depend	"78 ? 80"									
+80				CopyFile	"vc MFC Os Retail, mfc70fra_dll"									
+													
+81				CustomAction	"COMMON98.DLL,LangCheckCAH,ESP"									
+82				Depend	"81 ? 83"									
+83				CopyFile	"vc MFC Os Retail, mfc70esp_dll"									
+													
+84				CustomAction	"COMMON98.DLL,LangCheckCAH,ITA"									
+85				Depend	"84 ? 86"									
+86				CopyFile	"vc MFC Os Retail, mfc70ita_dll"									
+													
+	=== RegSvr32 Component ( RegSvr32.etf ) ===													
+													
+91				Group	92 									
+92		regsvr32.exe		InstallSysFile	"Sys Files - Regsrv32, regsvr32_exe_3"					%m				
+													
+	=== VC MSVC[I]RT.DLL Sys (crtdll.etf) ===													
+111				Group	112 									
+													
+112		msvcrt.dll		CopySection	"Sys Files - CRT Dlls"					%D\win32				
+													
+	=== VSS Main ETF (VSS.ETF) ===													
+													
+	STFWIZ	37												
+121	yes	Microsoft Visual SourceSafe 6.0d	Installs only the Client components needed to access a remote VSS database.	Group	128 129 131  140  143 122 134 135  	VSS98NET.DLL,604			yes	%d				
+122	yes	Billboards		Group	123 124 125 126 127 									
+													
+123	yes			AddBillboard	"""vsscantl.dll"",""1011"", ""FBillbrdDlgProc"""									
+124	yes			AddBillboard	"""vsscantl.dll"",""1012"", ""FBillbrdDlgProc"""									
+125	yes			AddBillboard	"""vsscantl.dll"",""1013"", ""FBillbrdDlgProc"""									
+126	yes			AddBillboard	"""vsscantl.dll"",""1014"", ""FBillbrdDlgProc"""									
+127	yes			AddBillboard	"""vsscantl.dll"",""1015"", ""FBillbrdDlgProc"""									
+													
+128				CustomAction	"COMMON98.DLL,IE4Check,IE4Check.ini;min;null;53;52;-1;1"									
+129				CustomAction	"COMMON98.DLL,NT4SP4Check,null;68;67;1"									
+130				DetectOlderFile	"SrcSafe.ini"					%d				
+131				Depend	"130 ? : 132 133"					%D				
+132				CopyFile	"VSSnet Srcsafe.ini,csrcsafe_ini_2"					%d				
+133				CustomAction	"""vsscantl.dll"",""ClientInclude"""									
+													
+134				InstallShared	"VSS Client exe, ssexp_exe, ""VSS setup tagfile"",,243"					%D\win32				
+													
+135				Depend	134 ? 136   					%D				
+136				Group	 137 138 181 171 161   									
+													
+137				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual SourceSafe,ProductDir,%s"									
+138				Depend	27 ? 139									
+139				AddRegData	"LOCAL,""Software\Microsoft\IE4\DependentComponents"",""VSS98"",""Microsoft Visual SourceSafe 6.0"""									
+													
+	STFWIZ	39												
+140	yes	Client Programs (Intel 32-bit)	Microsoft Visual SourceSafe 6.0d will be installed with only the options needed to access a Visual SourceSafe 6.0d database on a remote computer.	Group	217 141					%D				
+141				Depend	134 ? 142					%D				
+142				Group	 211  231 151 201  					%D				
+													
+	STFWIZ	38												
+143	yes	Enable SourceSafe Integration	Register SourceSafe for direct integration into development environment such as Visual Basic, Visual C++, Microsoft Access, and Visual Foxpro.	Group	144 					%D				
+144				Depend	134 ? 145   					%D				
+145				Group	191    					%D				
+													
+	=== vss Ssus.dll Component ( vssSsus.etf ) ===													
+													
+151				CopySection	"VSS - SSUSDLL"					%D\win32				
+													
+	=== vss Client SRG Component (VSSCSRG.ETF) ===													
+													
+161				Group	162  163									
+													
+162		vssClnt.srg		InstallShared	"VSS - Client SRG,vssclnt_srg,vssClnt.srg,,243"					%D				
+163				Depend	162 ? 164 					%d				
+164		reg_vssclnt.srg		CustomAction	"COMMON98.DLL,RegFile,162"					%162				
+													
+	=== VSS Help Root Component ( vsshelp.etf ) ===													
+													
+171				Group	172  					%D				
+													
+172				CopySection	"VSS - HelpRoot"					%D				
+													
+	=== VSS Ssexp.hlp Component ( vssSsexp.etf ) ===													
+													
+181				CopySection	"VSS - SsexpHlp"					%D				
+													
+	=== VSS Integration  Win32 Component ( vssIW32.etf ) ===													
+191				Group	192 193  									
+192				CopySection	"VSS - IntegrationWin32"					%D\win32				
+													
+193		ssscc.dll		SelfReg	"VSS - IntegrationWin32,ssscc_dll"					%192				
+													
+	=== Component (vsssharec-s.etf) ===													
+201				Group	202 203					%D\win32			 
+202				CopySection	"VSS Shared C/S"					%d
+203		ssapi.dll		SelfReg	"VSS Shared C/S,ssapi_dll ,,,,"					%d				
+														
+	=== VSS Client Win32 Component (vssCW32.etf) ===													
+													
+211				Group	212 215 216    221 213 214 219					%D\win32				
+													
+212				CopySection	"VSS Client"					%d				
+213		NLHtml.Dll		SelfReg	"VSS Client,nlhtml_dll ,,,,"					%d				
+214				AddRegData	"""HKEY_CLASSES_ROOT"",""CLSID\{e0ca5340-4534-11cf-b952-00aa0051fe20}\InProcServer32"",,""%s\NLHtml.Dll"""					%212				
+215				CopyFile	"VSS Client exe, ssexp_exe"					%d				
+216				StampCDInfo	"215, 106, 196"									
+													
+217				InstallShortcut	"%212\ssexp.exe,VSS6<Microsoft Visual SourceSafe 6.0>,%212,,,,"					%28\VSS<%28\Microsoft Visual SourceSafe>				
+218	yes			DetectOlderFile	"""ssexp.exe"""					%d				
+219				Depend	218 ? 220 					%d				
+220				RemoveRegEntry	"""LOCAL"",""Software\Microsoft\Windows\CurrentVersion\Uninstall\SS4""" 					%d				
+221				AddIniLine	"""VBAddin.INI"",""Add-Ins32"",""vbscc"",""1"""									
+														
+	=== VSS Client Root Component (vssCroot.etf) ===													
+231				CopySection	"VSS CRoot"					%D				
+													
+	=== Setup files (setup.etf) ===													
+241				Group	271 261 242 251 243 244 245 246 247 248					%d\setup\win32\1033				
+													
+242				CopySection	"Common Setup"					%d				
+243		vss98net_dll		CopyFile	"SetupProdCah,vss98net_dll"					%d				
+244				WriteTableFile	"setup.stf"					%d				
+245		selfreg.dll		InstallShared	"SetupProdCah,selfreg_dll,selfreg.dll,,243 "					%m				
+													
+	=== Uninstall Strings (setup.etf) ===													
+													
+246				AddRegData	"LOCAL,Software\Microsoft\Windows\CurrentVersion\Uninstall\Visual SourceSafe NetSetup ,DisplayName,Microsoft Visual SourceSafe NetSetup ,REG_SZ"									
+247				AddRegData	"LOCAL,Software\Microsoft\Windows\CurrentVersion\Uninstall\Visual SourceSafe NetSetup ,UninstallString,""""""%s\Setup.exe"""""",REG_SZ"					%d				
+													
+	=== Speciall CAH DLL for Visual SourceSafe Server Side setup (setup.etf)													
+248				Group	249 250					%d				
+249				CopyFile	"VSS Setup Aux,vsscantl_dll"					%d				
+250				CopyFile	"VSS Setup Aux,wwsetup_ttf"					%d				
+														
+ 														
+251				Group	252					%242				
+252				Depend	242 ? 253 254 255									
+253		acmsetup.fts		CustomAction	"COMMON98.DLL, RemoveAuxFile, Remove ACME Help Files;acmsetup_fts"									
+254		acmsetup.ftg		CustomAction	"COMMON98.DLL, RemoveAuxFile, Remove ACME Help Files;acmsetup_ftg"									
+255		acmsetup.gid		CustomAction	"COMMON98.DLL, RemoveAuxFile, Remove ACME Help Files;acmsetup_gid"									
+ 														
+													
+	=== Product Specific Setup files (pssetup.etf) ===													
+261				Group	262									
+262				CopySection	"Setup"					%d				
+ 														
+	=== ReadMe files (readme.etf) ===													
+271				Group	272					%41  				
+ 														
+272				CopySection	"ReadMe"					%d				 
+273				CustomAction 	"COMMON98.DLL, NopCAH"
+ 														
+														
+ 														
+ 														
